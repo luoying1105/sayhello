@@ -1,0 +1,38 @@
+// [python quickstart](https://grpc.io/docs/quickstart/python.html#run-a-grpc-application)
+// python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I. helloworld.proto
+
+// helloworld.proto
+syntax = "proto3";
+
+service Greeter {
+// 一个 简单 RPC ， 客户端使用存根发送请求到服务器并等待响应返回，就像平常的函数调用一样。
+    rpc SayHello(HelloRequest) returns (HelloReply) {}
+    rpc SayHelloAgain(HelloRequest) returns (HelloReply) {}
+    rpc query(HelloRequest) returns (HelloReply) {}
+// server2client stream rpc 服务器返回这个范围内的信息
+    rpc ListFeature(HelloRequest) returns (stream MessageInfo) {}
+// client2server stream rpc 客户端给服务器发送多个信息, 服务器返回汇总信息(summary)
+// rpc RecordRoute(stream MessageInfo) returns (RouteSummary) {}
+}
+
+
+// The request message containing the user's name.
+message HelloRequest {
+    int32 id = 1;
+    string name = 2;
+    string body = 3;
+    string create_time = 4;
+}
+
+message MessageInfo  {
+    string name = 1;
+    string body = 2;
+}
+
+// The response message containing the greetings
+message HelloReply {
+    int32 code = 1;
+    string message = 2;
+    HelloRequest data = 3;
+
+}
